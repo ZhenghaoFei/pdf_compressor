@@ -16,7 +16,7 @@ Compress images inside a PDF by re-encoding them as JPEG with configurable param
 **Quick Start**
 ```bash
 pip install -r requirements.txt
-python compress_pdf.py -i input.pdf -o output.pdf -q 70 -O -p -s
+python compress_pdf.py -i input.pdf -o output.pdf -q 70
 ```
 
 **Install**
@@ -26,13 +26,14 @@ pip install -r requirements.txt
 
 **Usage**
 ```bash
-python compress_pdf.py -i input.pdf -o output.pdf -q 70 -O -p -s
+python compress_pdf.py -i input.pdf -o output.pdf -q 70
 ```
 The script prints a summary including image counts, input/output PDF sizes, and a
 breakdown of image/content/font/metadata streams plus container overhead.
 
 Short flags are available (e.g. `-q` for quality). JPEG optimization is enabled by default;
-use `--no-optimize` to disable.
+use `--no-optimize` to disable. Skip-smaller is enabled by default; use
+`--no-skip-smaller` to disable.
 
 **CLI Flags**
 - `-i`, `--input` Input PDF path or directory
@@ -41,7 +42,8 @@ use `--no-optimize` to disable.
 - `-O`, `--optimize` Enable JPEG optimizer (default on)
 - `--no-optimize` Disable JPEG optimizer
 - `-p`, `--progressive` Save progressive JPEGs
-- `-s`, `--skip-smaller` Skip replacement if recompressed image is not smaller
+- `-s`, `--skip-smaller` Skip replacement if recompressed image is not smaller (default on)
+- `--no-skip-smaller` Do not skip replacements even if recompressed image is larger
 - `-a`, `--replace-alpha` Replace alpha/mask images by compositing on white
 - `-r`, `--recursive` When input is a directory, process PDFs recursively
 

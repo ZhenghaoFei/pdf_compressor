@@ -424,7 +424,14 @@ def main() -> int:
         "-s",
         "--skip-smaller",
         action="store_true",
-        help="Skip replacement if recompressed image is not smaller",
+        default=True,
+        help="Skip replacement if recompressed image is not smaller (default: on)",
+    )
+    parser.add_argument(
+        "--no-skip-smaller",
+        action="store_false",
+        dest="skip_smaller",
+        help="Do not skip replacements even if recompressed image is larger",
     )
     parser.add_argument(
         "-a",
