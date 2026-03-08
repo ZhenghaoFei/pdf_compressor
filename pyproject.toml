@@ -10,7 +10,10 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-    { name = "Zhenghao Fei" }
+    { name = "Zhenghao Fei", email = "fei.holly@gmail.com" }
+]
+maintainers = [
+    { name = "Zhenghao Fei", email = "fei.holly@gmail.com" }
 ]
 keywords = ["pdf", "compress", "image", "jpeg", "optimize"]
 classifiers = [
