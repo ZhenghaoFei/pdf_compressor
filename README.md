@@ -16,7 +16,7 @@ Compress images inside a PDF by re-encoding them as JPEG with configurable param
 **Quick Start**
 ```bash
 pip install -r requirements.txt
-python compress_pdf.py -i input.pdf -o output.pdf -q 70
+python compress_pdf.py -i input.pdf -q 70
 ```
 
 **Install**
@@ -26,6 +26,10 @@ pip install -r requirements.txt
 
 **Usage**
 ```bash
+# Output to input_compressed.pdf in same directory
+python compress_pdf.py -i input.pdf -q 70
+
+# Or specify custom output path
 python compress_pdf.py -i input.pdf -o output.pdf -q 70
 ```
 The script prints a summary including image counts, input/output PDF sizes, and a
@@ -36,8 +40,12 @@ use `--no-optimize` to disable. Skip-smaller is enabled by default; use
 `--no-skip-smaller` to disable.
 
 **CLI Flags**
-- `-i`, `--input` Input PDF path or directory
-- `-o`, `--output` Output PDF path or directory
+- `-i`, `--input` Input PDF path or directory (required)
+- `-o`, `--output` Output PDF path or directory (optional)
+  - Single file without `-o`: creates `input_compressed.pdf` in same directory
+  - Directory without `-o`: creates `file_compressed.pdf` for each PDF in place
+  - With `-o folder`: all compressed files go into the specified folder
+- `-q`, `--quality` JPEG quality (1-95), default 75
 - `-q`, `--quality` JPEG quality (1-95), default 75
 - `-O`, `--optimize` Enable JPEG optimizer (default on)
 - `--no-optimize` Disable JPEG optimizer
@@ -49,15 +57,21 @@ use `--no-optimize` to disable. Skip-smaller is enabled by default; use
 
 **Batch Compress a Folder**
 ```bash
-python compress_pdf.py -i input_folder -o output_folder -q 70 -s
+# In-place: each file gets _compressed.pdf suffix
+python compress_pdf.py -i input_folder -q 70
+
+# Recursive: include subfolders
+python compress_pdf.py -i input_folder -q 70 -r
+
+# Or specify output folder (all files go into single folder)
+python compress_pdf.py -i input_folder -o output_folder -q 70
 ```
-Use `--recursive` to include subfolders.
 
 **Alpha/Mask Images**
 By default, images with transparency (alpha or masks) are skipped. To replace them,
 composite on white:
 ```bash
-python compress_pdf.py -i input.pdf -o output.pdf -a
+python compress_pdf.py -i input.pdf -a
 ```
 
 **Create a Sample PDF**

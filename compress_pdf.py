@@ -294,7 +294,7 @@ def compress_pdf(
 
 def compress_folder(
     input_dir: str,
-    output_dir: str,
+    output_dir: str | None,
     quality: int,
     optimize: bool,
     progressive: bool,
@@ -303,8 +303,9 @@ def compress_folder(
     recursive: bool,
 ) -> Tuple[int, dict]:
     input_path = Path(input_dir)
-    output_path = Path(output_dir)
-    output_path.mkdir(parents=True, exist_ok=True)
+    output_path = Path(output_dir) if output_dir else None
+    if output_path:
+        output_path.mkdir(parents=True, exist_ok=True)
 
     pattern = "**/*.pdf" if recursive else "*.pdf"
     total_replaced = 0
@@ -348,7 +349,15 @@ def compress_folder(
     }
 
     for pdf_file in input_path.glob(pattern):
-        out_file = output_path / pdf_file.name
+        # Skip files that are already compressed outputs
+        if pdf_file.stem.endswith("_compressed"):
+            continue
+        if output_path:
+            # Output to specified folder (flatten structure)
+            out_file = output_path / pdf_file.name
+        else:
+            # In-place: add _compressed suffix to each file
+            out_file = pdf_file.parent / f"{pdf_file.stem}_compressed{pdf_file.suffix}"
         replaced, summary = compress_pdf(
             str(pdf_file),
             str(out_file),
@@ -391,8 +400,9 @@ def main() -> int:
     parser.add_argument(
         "-o",
         "--output",
-        required=True,
-        help="Output PDF path or directory",
+        required=False,
+        default=None,
+        help="Output PDF path or directory (default: input_compressed.pdf in same folder)",
     )
     parser.add_argument(
         "-q",
@@ -452,11 +462,19 @@ def main() -> int:
         return 2
 
     input_path = Path(args.input)
-    output_path = Path(args.output)
+    if args.output is None:
+        # Auto-generate output path
+        if input_path.is_dir():
+            # For directories, compress in-place when no output specified
+            output_path = None
+        else:
+            output_path = input_path.parent / f"{input_path.stem}_compressed{input_path.suffix}"
+    else:
+        output_path = Path(args.output)
     if input_path.is_dir():
         replaced, summary = compress_folder(
             str(input_path),
-            str(output_path),
+            str(output_path) if output_path else None,
             quality=args.quality,
             optimize=args.optimize,
             progressive=args.progressive,
@@ -466,8 +484,8 @@ def main() -> int:
         )
     else:
         replaced, summary = compress_pdf(
-            args.input,
-            args.output,
+            str(input_path),
+            str(output_path),
             quality=args.quality,
             optimize=args.optimize,
             progressive=args.progressive,
