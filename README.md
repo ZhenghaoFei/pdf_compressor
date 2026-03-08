@@ -15,22 +15,26 @@ Compress images inside a PDF by re-encoding them as JPEG with configurable param
 
 **Quick Start**
 ```bash
-pip install -r requirements.txt
-python compress_pdf.py -i input.pdf -q 70
+pip install pdf-compressor
+pdf-compressor -i input.pdf -q 70
 ```
 
 **Install**
 ```bash
-pip install -r requirements.txt
+# Install from PyPI
+pip install pdf-compressor
+
+# Or install from source
+pip install git+https://github.com/ZhenghaoFei/pdf_compressor
 ```
 
 **Usage**
 ```bash
 # Output to input_compressed.pdf in same directory
-python compress_pdf.py -i input.pdf -q 70
+pdf-compressor -i input.pdf -q 70
 
 # Or specify custom output path
-python compress_pdf.py -i input.pdf -o output.pdf -q 70
+pdf-compressor -i input.pdf -o output.pdf -q 70
 ```
 The script prints a summary including image counts, input/output PDF sizes, and a
 breakdown of image/content/font/metadata streams plus container overhead.
@@ -46,7 +50,6 @@ use `--no-optimize` to disable. Skip-smaller is enabled by default; use
   - Directory without `-o`: creates `file_compressed.pdf` for each PDF in place
   - With `-o folder`: all compressed files go into the specified folder
 - `-q`, `--quality` JPEG quality (1-95), default 75
-- `-q`, `--quality` JPEG quality (1-95), default 75
 - `-O`, `--optimize` Enable JPEG optimizer (default on)
 - `--no-optimize` Disable JPEG optimizer
 - `-p`, `--progressive` Save progressive JPEGs
@@ -58,20 +61,20 @@ use `--no-optimize` to disable. Skip-smaller is enabled by default; use
 **Batch Compress a Folder**
 ```bash
 # In-place: each file gets _compressed.pdf suffix
-python compress_pdf.py -i input_folder -q 70
+pdf-compressor -i input_folder -q 70
 
 # Recursive: include subfolders
-python compress_pdf.py -i input_folder -q 70 -r
+pdf-compressor -i input_folder -q 70 -r
 
 # Or specify output folder (all files go into single folder)
-python compress_pdf.py -i input_folder -o output_folder -q 70
+pdf-compressor -i input_folder -o output_folder -q 70
 ```
 
 **Alpha/Mask Images**
 By default, images with transparency (alpha or masks) are skipped. To replace them,
 composite on white:
 ```bash
-python compress_pdf.py -i input.pdf -a
+pdf-compressor -i input.pdf -a
 ```
 
 **Create a Sample PDF**

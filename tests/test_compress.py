@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-from compress_pdf import compress_pdf
+from pdf_compressor.core import compress_pdf
 
 
 def _make_pdf_with_image(path: Path) -> None:

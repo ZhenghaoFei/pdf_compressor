@@ -553,7 +553,3 @@ def main() -> int:
         f"{_fmt_bytes(summary['total_new_bytes'])}"
     )
     return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

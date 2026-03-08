@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pdf-compressor"
+version = "0.1.0"
+description = "Compress images inside PDFs by re-encoding them as JPEG"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Zhenghao Fei" }
+]
+keywords = ["pdf", "compress", "image", "jpeg", "optimize"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Office/Business",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pikepdf>=9.0.0",
+    "Pillow>=10.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "reportlab>=4.0.0",
+]
+
+[project.scripts]
+pdf-compressor = "pdf_compressor.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ZhenghaoFei/pdf_compressor"
+Repository = "https://github.com/ZhenghaoFei/pdf_compressor"
+Issues = "https://github.com/ZhenghaoFei/pdf_compressor/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pdf_compressor"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/pdf_compressor",
+    "/README.md",
+    "/LICENSE",
+]
